@@ -6,10 +6,10 @@
 typedef struct {
   char data;
   struct block *next;
-} Block;
+} block_t;
 
-Block *newBlock(char data) {
-  Block *block = (Block *)malloc(sizeof(Block));
+block_t *new_block(char data) {
+  block_t *block = (block_t *)malloc(sizeof(block_t));
   if (block == NULL) {
     fprintf(stderr, "Unable to allocate a single block");
     exit(1);
@@ -19,8 +19,8 @@ Block *newBlock(char data) {
   return block;
 }
 
-Block *newDisk() {
-  Block *disk = (Block *)malloc(DISK_SIZE * sizeof(Block));
+block_t *new_disk() {
+  block_t *disk = (block_t *)malloc(DISK_SIZE * sizeof(block_t));
   if (disk == NULL) {
     fprintf(stderr, "Unable to allocate disk space");
     exit(1);
@@ -32,7 +32,7 @@ Block *newDisk() {
 }
 
 int main() {
-  Block *disk = newDisk();
+  block_t *disk = new_disk();
   for (int i = 0; i < DISK_SIZE; i++)
     printf("%c\n", disk[i].data);
 

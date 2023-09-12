@@ -44,16 +44,16 @@ int *get_bitmap() {
   return bitmap;
 }
 
-int has_enough_space_on_disk(int *bitmap, size_t file_length) {
+int has_not_enough_space_on_disk(int *bitmap, size_t file_length) {
   size_t available_space_counter = 0;
   for (size_t i = 0; i < DISK_SIZE; i++) {
     if (bitmap[i])
       available_space_counter++;
 
     if (available_space_counter >= file_length)
-      return 1;
+      return 0;
   }
-  return 0;
+  return 1;
 }
 
 int main() {
@@ -81,7 +81,7 @@ int main() {
       scanf("%s", file);
       size_t file_length = strlen(file);
 
-      if (!has_enough_space_on_disk(bitmap, file_length)) {
+      if (has_not_enough_space_on_disk(bitmap, file_length)) {
         printf("Insufficient memory.\n");
         break;
       }

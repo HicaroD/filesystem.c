@@ -16,7 +16,7 @@ block_t *new_block(char data) {
     exit(1);
   }
   block->data = data;
-  block->next = -1;
+  block->next = -1; // Usando -1 para indicar um endereço nulo
   return block;
 }
 
@@ -123,5 +123,6 @@ int main() {
   }
 
   free(disk); // NOTE: Na prática, você não iria desalocar o disco, obviamente
+  free(bitmap);
   return 0;
 }

@@ -70,6 +70,7 @@ int main() {
   int *bitmap = get_bitmap();
 
   while (1) {
+    printf("Escolha um comando: \nW - Write\nR - Read\nD - Delete\nE - Exit\n");
     char input;
     scanf("%s", &input);
 
@@ -81,6 +82,7 @@ int main() {
     switch (input) {
     // READ
     case 'R': {
+      // TODO: read specific word from disk
       for(int i = 0; i < DISK_SIZE; i++) {
         printf("%d:%c ", i, disk[i].data);
       }
@@ -88,6 +90,7 @@ int main() {
     }
     // WRITE
     case 'W': {
+      printf("Qual palavra você quer escrever? ");
       char file[DISK_SIZE];
       scanf("%s", file);
       size_t file_length = strlen(file);
@@ -113,10 +116,11 @@ int main() {
     // DELETE
     case 'D': {
       printf("DELETE WORD\n");
+      // TODO: delete word
       break;
     }
     default: {
-      printf("INVALID COMMAND");
+      printf("Invalid command");
       break;
     }
     }

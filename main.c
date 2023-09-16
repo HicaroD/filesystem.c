@@ -61,24 +61,12 @@ int main() {
       }
       scanf("%32[^\n]", file);
 
-      printf("Procurando pelo arquivo: ");
-      for (size_t i = 0; i < strlen(file); i++) {
-        printf("%c", file[i]);
-      }
-
       int file_found = 0;
-
       for (size_t i = 0; i < directory->size; i++) {
         file_t current_file = directory->files[i];
 
         if (strcmp(current_file.filename, file) == 0) {
           file_found = 1;
-          size_t file_length = strlen(current_file.filename);
-          printf("\nArquivo encontrado! Resultado: ");
-          for (size_t j = 0; j < file_length; j++) {
-            printf("%c", current_file.filename[j]);
-          }
-          printf("\n");
           break;
         }
       }
@@ -139,21 +127,13 @@ int main() {
       scanf("%32[^\n]", file_to_be_removed);
       flush();
 
-      printf("Arquivo escolhido para ser removido: ");
-      for (size_t i = 0; i < strlen(file_to_be_removed); i++) {
-        printf("%c", file_to_be_removed[i]);
-      }
-
       for (size_t i = 0; i < directory->size; i++) {
         const char *current_filename = directory->files[i].filename;
         int current_file_start_index = directory->files[i].file_start_index;
 
         if (strcmp(file_to_be_removed, current_filename) == 0) {
-          printf("\nArquivo foi encontrado e será marcado para remoção no "
-                 "bitmap.\n");
           size_t disk_pointer = current_file_start_index;
           while (disk[disk_pointer].next != -1) {
-            printf("Setando índice %lu para livre\n", disk_pointer);
             bitmap[disk_pointer] = 1;
             disk_pointer = disk[disk_pointer].next;
           }

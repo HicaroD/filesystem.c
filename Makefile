@@ -1,6 +1,6 @@
 CC=cc
 CFLAGS=-O3 -Wall -Wextra -Wfloat-equal -Werror -o filesystem
-SOURCE_FILES=main.c
+SOURCE_FILES=main.c block.c bitmap.c
 
 main: $(SOURCE_FILES)
 	$(CC) $(CFLAGS) $(SOURCE_FILES)

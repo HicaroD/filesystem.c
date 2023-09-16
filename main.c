@@ -66,18 +66,25 @@ int main() {
       char file_to_be_removed[DISK_SIZE];
       scanf("%s", file_to_be_removed);
 
+      printf("Arquivo escolhido para ser removido: ");
+      for (size_t i = 0; i < strlen(file_to_be_removed); i++) {
+        printf("%c", file_to_be_removed[i]);
+      }
+
       for (size_t i = 0; i < directory->size; i++) {
-        char *current_filename = directory->files[i].filename;
+        const char *current_filename = directory->files[i].filename;
         int current_file_start_index = directory->files[i].file_start_index;
 
         if (strcmp(file_to_be_removed, current_filename) == 0) {
-          printf("\nArquivo foi encontrado e será marcado para remoção no bitmap.\n");
+          printf("\nArquivo foi encontrado e será marcado para remoção no "
+                 "bitmap.\n");
           size_t disk_pointer = current_file_start_index;
           while (disk[disk_pointer].next != -1) {
-            printf("Setando %lu para livre", disk_pointer);
+            printf("Setando índice %lu para livre\n", disk_pointer);
             bitmap[disk_pointer] = 1;
             disk_pointer = disk[disk_pointer].next;
           }
+          remove_file_from_directory(directory, directory->files[i]);
           break;
         }
       }

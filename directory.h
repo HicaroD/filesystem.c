@@ -13,8 +13,8 @@ typedef struct directory {
 
 directory_h *new_directory();
 
-void append_file_to_directory(directory_h *directory, file_t file);
+void append_file_to_directory(directory_h *directory, const file_t file);
 
-void remove_file_from_directory(directory_h *directory, file_t *file);
+void remove_file_from_directory(directory_h *directory, const file_t file);
 
 #endif // DIRECTORY_H

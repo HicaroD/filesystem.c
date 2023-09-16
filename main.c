@@ -1,16 +1,14 @@
-#include "block.h"
 #include "bitmap.h"
+#include "block.h"
+#include "directory.h"
+#include "file.h"
 #include "stdio.h"
 #include "stdlib.h"
 #include <string.h>
 
-typedef struct file {
-  char *filename; // Obs.: O nome do arquivo é o mesmo que o conteúdo dele
-  int file_start_index;
-} file_t;
-
 int main() {
   block_t *disk = new_disk();
+  directory_h *directory = new_directory();
   int *bitmap = get_bitmap();
 
   while (1) {
@@ -28,7 +26,7 @@ int main() {
     case 'R': {
       // TODO: read specific word from disk
       for (int i = 0; i < DISK_SIZE; i++) {
-        printf("%d:%c ", i, disk[i].data);
+        printf("%d:%c:%d ", i, disk[i].data, disk[i].next);
       }
       break;
     }
@@ -49,6 +47,9 @@ int main() {
       bitmap[previous_block_index] = 0;
       disk[previous_block_index].data = file[previous_block_index];
 
+      file_t current_file = {file, previous_block_index};
+      append_file_to_directory(directory, current_file);
+
       for (size_t i = 1; i < strlen(file); i++) {
         int current_free_block_index =
             get_next_free_block_index_from_bitmap(bitmap, i);
@@ -61,8 +62,25 @@ int main() {
     }
     // DELETE
     case 'D': {
-      printf("DELETE WORD\n");
-      // TODO: delete word
+      printf("Qual palavra você quer remover? ");
+      char file_to_be_removed[DISK_SIZE];
+      scanf("%s", file_to_be_removed);
+
+      for (size_t i = 0; i < directory->size; i++) {
+        char *current_filename = directory->files[i].filename;
+        int current_file_start_index = directory->files[i].file_start_index;
+
+        if (strcmp(file_to_be_removed, current_filename) == 0) {
+          printf("\nArquivo foi encontrado e será marcado para remoção no bitmap.\n");
+          size_t disk_pointer = current_file_start_index;
+          while (disk[disk_pointer].next != -1) {
+            printf("Setando %lu para livre", disk_pointer);
+            bitmap[disk_pointer] = 1;
+            disk_pointer = disk[disk_pointer].next;
+          }
+          break;
+        }
+      }
       break;
     }
     default: {

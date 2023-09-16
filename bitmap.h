@@ -11,4 +11,4 @@ int has_not_enough_space_on_disk(int *bitmap, size_t file_length);
 
 int get_next_free_block_index_from_bitmap(int *bitmap, int start_index);
 
-#endif
+#endif // BITMAP_H

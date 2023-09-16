@@ -11,8 +11,6 @@ typedef struct block {
   int next;
 } block_t;
 
-block_t *new_block(char data);
-
 block_t *new_disk();
 
-#endif
+#endif // BLOCK_H

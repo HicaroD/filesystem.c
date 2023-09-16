@@ -22,12 +22,34 @@ int main() {
     }
 
     switch (input) {
-    // READ
-    case 'R': {
-      // TODO: read specific word from disk
+    // DEBUGGING
+    case 'S': {
+      printf("Disco:\n");
       for (int i = 0; i < DISK_SIZE; i++) {
         printf("%d:%c:%d ", i, disk[i].data, disk[i].next);
       }
+      printf("\n");
+
+      printf("\n\nDiretórios:\n");
+      for (size_t i = 0; i < directory->size; i++) {
+        const file_t *current_file = directory->files[i];
+
+        printf("%c:%d", *current_file->filename,
+               current_file->file_start_index);
+      }
+      printf("\n");
+
+      printf("\n\nBitmap:\n");
+      for (size_t i = 0; i < DISK_SIZE; i++) {
+        printf("%d", bitmap[i]);
+      }
+      printf("\n");
+      break;
+    }
+    // READ
+    case 'R': {
+      // TODO: read specific word from disk
+      printf("READ FILE\n");
       break;
     }
     // WRITE
@@ -47,7 +69,7 @@ int main() {
       bitmap[previous_block_index] = 0;
       disk[previous_block_index].data = file[previous_block_index];
 
-      file_t current_file = {file, previous_block_index};
+      file_t *current_file = new_file(file, previous_block_index);
       append_file_to_directory(directory, current_file);
 
       for (size_t i = 1; i < strlen(file); i++) {
@@ -72,8 +94,8 @@ int main() {
       }
 
       for (size_t i = 0; i < directory->size; i++) {
-        const char *current_filename = directory->files[i].filename;
-        int current_file_start_index = directory->files[i].file_start_index;
+        const char *current_filename = directory->files[i]->filename;
+        int current_file_start_index = directory->files[i]->file_start_index;
 
         if (strcmp(file_to_be_removed, current_filename) == 0) {
           printf("\nArquivo foi encontrado e será marcado para remoção no "
@@ -84,7 +106,9 @@ int main() {
             bitmap[disk_pointer] = 1;
             disk_pointer = disk[disk_pointer].next;
           }
-          remove_file_from_directory(directory, directory->files[i]);
+          bitmap[disk_pointer] =
+              1; // Garantido que última letra também será removida
+          remove_file_from_directory(directory, *directory->files[i]);
           break;
         }
       }

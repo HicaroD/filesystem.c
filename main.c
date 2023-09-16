@@ -41,7 +41,7 @@ int main() {
       for (size_t i = 0; i < directory->size; i++) {
         const file_t current_file = directory->files[i];
 
-        printf("%c:%d", *current_file.filename, current_file.file_start_index);
+        printf("%c:%d ", *current_file.filename, current_file.file_start_index);
       }
       printf("\n");
 
@@ -60,10 +60,9 @@ int main() {
         fprintf(stderr, "Incapaz de alocar memória para receber input\n");
         return EXIT_FAILURE;
       }
-      scanf("%[^\n]s", file);
-      flush();
+      scanf("%32[^\n]", file);
 
-      printf("Procurando pelo arquivo: \n");
+      printf("Procurando pelo arquivo: ");
       for (size_t i = 0; i < strlen(file); i++) {
         printf("%c", file[i]);
       }
@@ -86,7 +85,7 @@ int main() {
       }
 
       if (!file_found) {
-        printf("Arquivo não encontrado!\n");
+        printf("\nArquivo não encontrado!\n");
       }
       break;
     }
@@ -98,7 +97,7 @@ int main() {
         fprintf(stderr, "Incapaz de alocar memória para receber input\n");
         return EXIT_FAILURE;
       }
-      scanf("%[^\n]s", file);
+      scanf("%32[^\n]", file);
       flush();
       size_t file_length = strlen(file);
 
@@ -134,7 +133,7 @@ int main() {
         return EXIT_FAILURE;
       }
 
-      scanf("%[^\n]s", file_to_be_removed);
+      scanf("%32[^\n]", file_to_be_removed);
       flush();
 
       printf("Arquivo escolhido para ser removido: ");
@@ -155,12 +154,13 @@ int main() {
             bitmap[disk_pointer] = 1;
             disk_pointer = disk[disk_pointer].next;
           }
-          bitmap[disk_pointer] =
-              1; // Garantido que última letra também será removida
+          // NOTA: Garantido que última letra também será removida
+          bitmap[disk_pointer] = 1;
           remove_file_from_directory(directory, directory->files[i]);
           break;
         }
       }
+      free(file_to_be_removed);
       break;
     }
     default: {

@@ -44,7 +44,6 @@ int find_file(directory_h *directory, const file_t file) {
     const char *current_filename = directory->files[i].filename;
     if (strcmp(file.filename, current_filename) == 0) {
       file_to_be_removed_index = i;
-      printf("Found the index for the file I'm looking for: %d\n", file_to_be_removed_index);
       break;
     }
   }

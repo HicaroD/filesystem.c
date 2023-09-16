@@ -15,6 +15,7 @@ int main() {
     printf("Escolha um comando: \nW - Write\nR - Read\nD - Delete\nE - Exit\n");
     char input;
     scanf("%s", &input);
+    fflush(stdin);
 
     if (input == 'E') {
       printf("Exiting program...\n");
@@ -48,15 +49,39 @@ int main() {
     }
     // READ
     case 'R': {
-      // TODO: read specific word from disk
-      printf("READ FILE\n");
+      printf("Qual arquivo você quer procurar? ");
+      char file[DISK_SIZE];
+      scanf("%s", file);
+      fflush(stdin);
+
+      int file_found = 0;
+
+      for (size_t i = 0; i < directory->size; i++) {
+        const file_t *current_file = directory->files[i];
+
+        if (strcmp(current_file->filename, file) == 0) {
+          file_found = 1;
+          size_t file_length = strlen(current_file->filename);
+          printf("Arquivo encontrado! Resultado: ");
+          for (size_t j = 0; j < file_length; j++) {
+            printf("%c", current_file->filename[j]);
+          }
+          printf("\n");
+          break;
+        }
+      }
+
+      if (!file_found) {
+        printf("Arquivo não encontrado!\n");
+      }
       break;
     }
     // WRITE
     case 'W': {
-      printf("Qual palavra você quer escrever? ");
+      printf("Qual arquivo você quer escrever? ");
       char file[DISK_SIZE];
       scanf("%s", file);
+      fflush(stdin);
       size_t file_length = strlen(file);
 
       if (has_not_enough_space_on_disk(bitmap, file_length)) {
@@ -84,9 +109,10 @@ int main() {
     }
     // DELETE
     case 'D': {
-      printf("Qual palavra você quer remover? ");
+      printf("Qual arquivo você quer remover? ");
       char file_to_be_removed[DISK_SIZE];
       scanf("%s", file_to_be_removed);
+      fflush(stdin);
 
       printf("Arquivo escolhido para ser removido: ");
       for (size_t i = 0; i < strlen(file_to_be_removed); i++) {
@@ -115,7 +141,7 @@ int main() {
       break;
     }
     default: {
-      printf("Invalid command");
+      printf("Comando invalido");
       break;
     }
     }

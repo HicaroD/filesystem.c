@@ -24,8 +24,8 @@ int has_not_enough_space_on_disk(int *bitmap, size_t file_length) {
   return 1;
 }
 
-int get_next_free_block_index_from_bitmap(int *bitmap, int start_index) {
-  for (int i = start_index; i < DISK_SIZE; i++) {
+int get_next_free_block_index_from_bitmap(int *bitmap) {
+  for (int i = 0; i < DISK_SIZE; i++) {
     if (bitmap[i]) {
       return i;
     }

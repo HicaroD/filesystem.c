@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS=-O3 -Wall -Wextra -Wfloat-equal -Werror -o filesystem
+CFLAGS=-g -O3 -Wall -Wextra -Wfloat-equal -Werror -o filesystem
 SOURCE_FILES=main.c block.c bitmap.c directory.c file.c
 
 main: $(SOURCE_FILES)
